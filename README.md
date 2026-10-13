@@ -11,7 +11,7 @@ Für die Tests einmalig `symfony console doctrine:database:create --env=test` so
 ## Entscheidungen die ich getroffen habe
 - Ich habe mich für Symfony mit API Platform entschieden weil diese Kombination extrem schnelle Entwicklung mit guter Performance und Datenintegritätsgarantien erlaubt.
 - Ein Gerät ist entweder im Schrank oder ausgeliehen, nie beides: so gibt eine Ausleihe den Platz im Schrank frei, und bei der Rückgabe greift dieselbe Kapazitätsprüfung wie beim Einsortieren. Defekte Geräte können nicht ausgeliehen werden, einen Defekt meldet man bei der Rückgabe.
-- Ich habe mich für den Bau einer API entschieden, weil für mich die Datenintegrität in der Benutzung am wichtigsten war; das Interface muss bedienbar sein, aber wenn die Daten nicht korrekt sind hat man größere Probleme als wenn etwas nicht schön aussieht.
+- Ich habe mich für den Bau einer API entschieden, weil diese die Datengrundlage für die Entwicklung eines Interfaces bietet.
 
 ## Was ich als Nächstes machen würde
 - Ein User Interface bauen
