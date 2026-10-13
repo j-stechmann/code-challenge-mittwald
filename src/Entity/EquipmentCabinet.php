@@ -13,8 +13,23 @@ class EquipmentCabinet
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private ?int $maxDevices = null;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getMaxDevices(): ?int
+    {
+        return $this->maxDevices;
+    }
+
+    public function setMaxDevices(int $maxDevices): static
+    {
+        $this->maxDevices = $maxDevices;
+
+        return $this;
     }
 }
