@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Device;
+use App\Entity\Employee;
 use App\Entity\EquipmentCabinet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -34,5 +35,18 @@ class DeviceRepository extends ServiceEntityRepository
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Counts the devices currently loaned to $employee in the database.
+     */
+    public function countByBorrower(Employee $employee): int
+    {
+        return (int) $this->createQueryBuilder('d')
+            ->select('COUNT(d.id)')
+            ->andWhere('d.borrower = :employee')
+            ->setParameter('employee', $employee)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

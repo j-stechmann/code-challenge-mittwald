@@ -48,6 +48,12 @@ class Device
     #[ORM\JoinColumn(nullable: true)]
     private ?EquipmentCabinet $cabinet = null;
 
+    #[ORM\ManyToOne(inversedBy: 'devices')]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Assert\Expression('value === null or this.getCabinet() === null', message: 'A device on loan can\'t be stored in a cabinet.')]
+    #[Assert\Expression('value === null or !this.isDefective()', message: 'Defective devices can\'t be loaned.')]
+    private ?Employee $borrower = null;
+
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
@@ -114,6 +120,18 @@ class Device
     public function setCabinet(?EquipmentCabinet $cabinet): static
     {
         $this->cabinet = $cabinet;
+
+        return $this;
+    }
+
+    public function getBorrower(): ?Employee
+    {
+        return $this->borrower;
+    }
+
+    public function setBorrower(?Employee $borrower): static
+    {
+        $this->borrower = $borrower;
 
         return $this;
     }

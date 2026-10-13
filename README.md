@@ -1,6 +1,6 @@
 # Mittwald Code Challenge - Geräteausleihe
 
-Eine kleine API (API Platform) für Geräteausleihe mit den Entities Device und EquipmentCabinet, wobei Devices als owning side über eine nullable Many-To-One-Beziehung einem Schrank zugewiesen werden.
+Eine kleine API (API Platform) für Geräteausleihe mit den Entities Device, EquipmentCabinet und Employee, wobei Devices als owning side über nullable Many-To-One-Beziehungen entweder einem Schrank zugewiesen oder an Mitarbeitende ausgeliehen werden.
 Mehrere custom Validators und Constraints sichern die Datenintegrität und verhindern Bedienfehler, etwa das Überschreiten der maximalen Geräteanzahl eines Schranks.
 
 ## Projekt starten
@@ -9,9 +9,9 @@ Für die Tests einmalig `symfony console doctrine:database:create --env=test` so
 
 ## Entscheidungen die ich getroffen habe
 - Ich habe mich für Symfony mit API Platform entschieden weil diese Kombination extrem schnelle Entwicklung mit guter Performance und Datenintegritätsgarantien erlaubt.
+- Ein Gerät ist entweder im Schrank oder ausgeliehen, nie beides: so gibt eine Ausleihe den Platz im Schrank frei, und bei der Rückgabe greift dieselbe Kapazitätsprüfung wie beim Einsortieren. Defekte Geräte können nicht ausgeliehen werden, einen Defekt meldet man bei der Rückgabe.
 - Ich habe mich für den Bau einer API entschieden, weil für mich die Datenintegrität in der Benutzung am wichtigsten war; das Interface muss bedienbar sein, aber wenn die Daten nicht korrekt sind hat man größere Probleme als wenn etwas nicht schön aussieht.
 
 ## Was ich als Nächstes machen würde
 - Ein User Interface bauen
-- Eine Entity bauen für die Person an die ausgeliehen wurde, damit entsprechend getrackt werden kann welches Gerät an wen ausgeliehen ist
-- Sicherstellen dass defekte Geräte nicht ausgeliehen werden können
+- Verhindern, dass ein ausgeliehenes Gerät direkt an eine andere Person umgebucht wird, ohne vorher zurückgegeben zu werden
