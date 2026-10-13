@@ -1,6 +1,7 @@
 # Mittwald Code Challenge - Geräteausleihe
 
 Eine kleine API (API Platform) für Geräteausleihe mit den Entities Device, EquipmentCabinet und Employee, wobei Devices als owning side über nullable Many-To-One-Beziehungen entweder einem Schrank zugewiesen oder an Mitarbeitende ausgeliehen werden.
+Geräte lassen sich nach Typ, Hersteller, Seriennummer und Zustand suchen, z. B. `/api/devices?type=laptop&defective=false`.
 Mehrere custom Validators und Constraints sichern die Datenintegrität und verhindern Bedienfehler, etwa das Überschreiten der maximalen Geräteanzahl eines Schranks.
 
 ## Projekt starten

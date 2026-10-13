@@ -2,22 +2,32 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\ExactFilter;
+use ApiPlatform\Doctrine\Orm\Filter\PartialSearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Repository\DeviceRepository;
 use App\State\DeviceProcessor;
 use App\Validator\CabinetHasCapacity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\TypeInfo\Type\BuiltinType;
+use Symfony\Component\TypeInfo\TypeIdentifier;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DeviceRepository::class)]
 #[ApiResource(operations: [
     new Get(),
-    new GetCollection(),
+    new GetCollection(parameters: [
+        'type' => new QueryParameter(filter: new PartialSearchFilter(), property: 'type'),
+        'manufacturer' => new QueryParameter(filter: new PartialSearchFilter(), property: 'manufacturer'),
+        'serialNumber' => new QueryParameter(filter: new PartialSearchFilter(), property: 'serialNumber'),
+        'defective' => new QueryParameter(filter: new ExactFilter(), property: 'defective', nativeType: new BuiltinType(TypeIdentifier::BOOL), castToNativeType: true),
+    ]),
     new Post(processor: DeviceProcessor::class),
     new Patch(processor: DeviceProcessor::class),
     new Delete(),
