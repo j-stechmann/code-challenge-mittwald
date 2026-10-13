@@ -14,4 +14,3 @@ Für die Tests einmalig `symfony console doctrine:database:create --env=test` so
 
 ## Was ich als Nächstes machen würde
 - Ein User Interface bauen
-- Verhindern, dass ein ausgeliehenes Gerät direkt an eine andere Person umgebucht wird, ohne vorher zurückgegeben zu werden
