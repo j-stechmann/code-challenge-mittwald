@@ -22,6 +22,9 @@ class Device
     #[ORM\Column]
     private ?bool $defective = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $manufacturer = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Device
     public function setDefective(bool $defective): static
     {
         $this->defective = $defective;
+
+        return $this;
+    }
+
+    public function getManufacturer(): ?string
+    {
+        return $this->manufacturer;
+    }
+
+    public function setManufacturer(string $manufacturer): static
+    {
+        $this->manufacturer = $manufacturer;
 
         return $this;
     }
