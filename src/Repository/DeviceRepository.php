@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Device;
+use App\Entity\EquipmentCabinet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,22 @@ class DeviceRepository extends ServiceEntityRepository
         parent::__construct($registry, Device::class);
     }
 
-//    /**
-//     * @return Device[] Returns an array of Device objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('d.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Counts the devices currently assigned to $cabinet in the database,
+     * optionally leaving out $exclude (e.g. the device being validated).
+     */
+    public function countByCabinet(EquipmentCabinet $cabinet, ?Device $exclude = null): int
+    {
+        $qb = $this->createQueryBuilder('d')
+            ->select('COUNT(d.id)')
+            ->andWhere('d.cabinet = :cabinet')
+            ->setParameter('cabinet', $cabinet);
 
-//    public function findOneBySomeField($value): ?Device
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (null !== $exclude?->getId()) {
+            $qb->andWhere('d.id != :exclude')
+                ->setParameter('exclude', $exclude->getId());
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
 }
